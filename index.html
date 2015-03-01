@@ -16,7 +16,7 @@ canvas { margin: 0 auto; display: block;}
 <div>
 	<canvas id="primaryCanvas" width="800" height="600"></canvas>
 </div>
-<div id="generation"></div>
+<div>Generation <span id="generation"></span></div>
 <script>
 var App = {};
 
@@ -32,7 +32,7 @@ var rules = {
 		}
 	},
 	'1': {
-		becomes: '11',
+		becomes: '11', // Note that this can also be a function that takes in this character
 		draws: function(ctx) {
 			ctx.translate(0, -10);
 			ctx.lineTo(0, 0);
@@ -83,7 +83,12 @@ App.generate = function(n) {
 	for(var i = 0; i < currentGeneration.length; ++i) {
 		var c = currentGeneration.charAt(i);
 		if(rules[c] && rules[c].becomes) {
-			newGeneration += rules[c].becomes;
+			if(typeof(rules[c].becomes) == 'function') {
+				newGeneration += rules[c].becomes(c);
+			}
+			else {
+				newGeneration += rules[c].becomes;
+			}
 		} else {
 			newGeneration += c;
 		}

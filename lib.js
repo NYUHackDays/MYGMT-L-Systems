@@ -31,7 +31,7 @@
 
 	function timestamp() {
 		return window.performance && window.performance.now ? window.performance.now() : (new Date()).getTime();
-	
+	}
 
 	App.start(ctx);
 
@@ -56,7 +56,7 @@
 	document.onkeyup = function(event) {
 		if(event.keyCode == 13 || event.keyCode == 10) {
 			var c = App.generate(generation++);
-			document.getElementById('generation').innerHTML = c;
+			document.getElementById('generation').innerHTML = generation + ': <br>' + c;
 		}
 	};
 })();
