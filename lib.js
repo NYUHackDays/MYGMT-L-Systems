@@ -33,19 +33,6 @@
 		return window.performance && window.performance.now ? window.performance.now() : (new Date()).getTime();
 	}
 
-	var stack = [];
-	console.log(ctx);
-	window.pushTransform = function() {
-		var t = ctx.currentTransform;
-		console.log(t);
-		stack.push([t.a, t.b, t.c, t.d, t.e, t.f]);
-	}
-
-	window.popTransform = function() {
-		var t = stack.pop();
-		ctx.setTransform(t[0], t[1], t[2], t[3], t[4], t[5]);
-	}
-
 	App.start(ctx);
 
 	var time = { last: 0, current: 0, delta: 0 };
