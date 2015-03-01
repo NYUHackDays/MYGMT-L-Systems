@@ -24,11 +24,11 @@ var AXIOM = "0";
 var currentGeneration = AXIOM;
 
 var rules = {
-	'0': {
-		becomes: '1[0]0',
-		draws: function(ctx) {
-			ctx.translate(0, -10);
-			ctx.lineTo(0, 0);
+	'0': { // This rule will apply to '0' character
+		becomes: '1[0]0', // The '0' character will become '1[0]0' in the next generation
+		draws: function(ctx) { // Here we define what a '0' character is drawn as
+			ctx.translate(0, -10); // Move our cursor 10 units up
+			ctx.lineTo(0, 0); // Draw a line to the cursor
 		}
 	},
 	'1': {
@@ -40,16 +40,16 @@ var rules = {
 	},
 	'[': {
 		draws: function(ctx) {
-			ctx.save();
+			ctx.save(); // This saves the state of the drawing context, letting us remember where we were.
 			ctx.moveTo(0, 0);
-			ctx.rotate(-45);
+			ctx.rotate(-Math.PI / 4); // Rotate the space 45 degrees to the left, so that a line pointing up before now is diagonal to the left
 		}
 	},
 	']': {
 		draws: function(ctx) {
-			ctx.restore();
+			ctx.restore(); // This recalls the state of the last saved drawing context.
 			ctx.moveTo(0, 0);
-			ctx.rotate(45);
+			ctx.rotate(Math.PI / 4);
 		}
 	}
 }
