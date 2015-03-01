@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body {
+	background-color: #ccc;
+	font-family: monospace;
+	word-wrap: break-word;
+}
+div { width: 100%; }
+canvas { margin: 0 auto; display: block;}
+
+</style>
+</head>
+<body>
+<div>
+	<canvas id="primaryCanvas" width="800" height="600"></canvas>
+</div>
+<div id="generation"></div>
+<script>
+var App = {};
+
+var AXIOM = "0";
+var currentGeneration = AXIOM;
+
+var rules = {
+	'0': {
+		becomes: '1[0]0',
+		draws: function(ctx) {
+			ctx.translate(0, -10);
+			ctx.lineTo(0, 0);
+		}
+	},
+	'1': {
+		becomes: '11',
+		draws: function(ctx) {
+			ctx.translate(0, -10);
+			ctx.lineTo(0, 0);
+		}
+	},
+	'[': {
+		draws: function(ctx) {
+			ctx.save();
+			ctx.moveTo(0, 0);
+			ctx.rotate(-45);
+		}
+	},
+	']': {
+		draws: function(ctx) {
+			ctx.restore();
+			ctx.moveTo(0, 0);
+			ctx.rotate(45);
+		}
+	}
+}
+
+// This function is called once at the start of the app.
+// Use it to set up everything that you only want to draw once!
+App.start = function(ctx) {
+
+};
+
+// This function is called every frame. Use it it you want to
+// draw something every frame!
+App.update = function(ctx, time) {
+	ctx.translate(400, 600);
+	ctx.moveTo(0, 0);
+
+	App.drawGeneration(ctx);
+};
+
+App.drawGeneration = function(ctx) {
+	for(var i = 0; i < currentGeneration.length; ++i) {
+		var c = currentGeneration.charAt(i);
+		if(rules[c] && rules[c].draws) {
+			rules[c].draws(ctx);
+		}
+	}
+};
+
+App.generate = function(n) {
+	var newGeneration = "";
+	for(var i = 0; i < currentGeneration.length; ++i) {
+		var c = currentGeneration.charAt(i);
+		if(rules[c] && rules[c].becomes) {
+			newGeneration += rules[c].becomes;
+		} else {
+			newGeneration += c;
+		}
+	}
+	currentGeneration = newGeneration;
+	return currentGeneration;
+};
+</script>
+<script src="lib.js"></script>
+</body>
+</html>
